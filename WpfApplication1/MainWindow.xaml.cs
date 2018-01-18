@@ -149,7 +149,7 @@ namespace WpfApplication1
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var a = sender;
+      
             ComboBox c = (ComboBox)sender;
             ComboBoxItem selItem = null;
             foreach (ComboBoxItem item in c.Items)
