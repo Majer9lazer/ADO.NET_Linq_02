@@ -128,9 +128,11 @@ namespace WpfApplication1
             if (DataList.ItemsSource != null)
             {
                 DataList.ItemsSource = null;
+
                 var data_B = db.Areas.Where(w => w.AssemblyArea == true).ToList();
                 DataList.ItemsSource = data_B;
             }
+
             else
             {
                 var data_B = db.Areas.Where(w => w.AssemblyArea == true).ToList();
