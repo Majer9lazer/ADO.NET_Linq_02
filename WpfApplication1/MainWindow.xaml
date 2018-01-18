@@ -9,18 +9,34 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"></RowDefinition>
-
+            <RowDefinition Height="20"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="30"></RowDefinition>
         </Grid.RowDefinitions>
+        <ComboBox Grid.Row="1" SelectionChanged="ComboBox_SelectionChanged">
+            <ComboBoxItem Content="Get_A" IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_B" IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_C"  IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_D"  IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_E"  IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_F"  IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_G"  IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_H"  IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_I"  IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_J"  IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_K"  IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_L"  IsSelected="False"></ComboBoxItem>
+            <ComboBoxItem Content="Get_M"  IsSelected="False"></ComboBoxItem>
+
+        </ComboBox>
         <Label x:Name="ErrorOrSuccesLabel" Grid.Row="3" Background="AliceBlue"></Label>
         <Button Content="GetAlldata" Grid.Row="0" x:Name="GetData" Click="GetData_Click"></Button>
-        <TabControl Grid.Row="1">
+        <TabControl Grid.Row="2">
             <TabItem Header="GetData_A">
                 <ListView x:Name="DataList">
                     <ListView.View>
                         <GridView x:Name="GridViewList">
-                            
+
                         </GridView>
                     </ListView.View>
                 </ListView>

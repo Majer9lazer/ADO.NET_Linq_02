@@ -30,7 +30,7 @@ namespace WpfApplication1
         {
             GridViewList.Columns.Clear();
             var data_A = db.Areas.Where(w => w.WorkingPeople > 2);
-            List <Area> data_AL= data_A.ToList();
+            List<Area> data_AL = data_A.ToList();
             GridViewList.Columns.Add(new GridViewColumn()
             {
                 Header = "AreId",
@@ -48,7 +48,7 @@ namespace WpfApplication1
                 }
             });
             DataList.ItemsSource = data_AL;
-            var data_B = db.Areas.Where(w => w.AssemblyArea == true);
+            var data_B = db.Areas.Where(w => w.AssemblyArea == true).ToList();
             var data_C = db.Areas.Skip(10);
             var data_D = db.Areas.Skip(5).Take(3);
             var data_E = db.Areas.ToList().TakeWhile(tw => tw.OrderExecution != null);
@@ -76,10 +76,99 @@ namespace WpfApplication1
             var data_M = db.Timers.
                 GroupBy(gr => gr.DateStart).OrderByDescending(ob => ob.Key.Value);
         }
+        private void Get_A()
+        {
+            var data_A = db.Areas.Where(w => w.WorkingPeople > 2);
+            List<Area> data_AL = data_A.ToList();
+            GridViewList.Columns.Add(new GridViewColumn()
+            {
+                Header = "AreId",
+                DisplayMemberBinding = new Binding()
+                {
+                    Path = new PropertyPath("AreaId")
+                }
+            });
+            GridViewList.Columns.Add(new GridViewColumn()
+            {
+                Header = "FullName",
+                DisplayMemberBinding = new Binding()
+                {
+                    Path = new PropertyPath("FullName")
+                }
+            });
+            DataList.ItemsSource = data_AL;
+        }
+        private void Get_B()
+        {
+           if (DataList.ItemsSource != null)
+            {
+                DataList.ItemsSource = null;
+                var data_B = db.Areas.Where(w => w.AssemblyArea == true).ToList();
+                DataList.ItemsSource = data_B;
+            }
+            else
+            {
+                ErrorOrSuccesLabel.Content += "Ресурс пришел пустым))\n";
+            }
+           
+        }
+        private void Get_C()
+        {
+            var data_C = db.Areas.Skip(10).ToList();
+        }
+
+        public void GetAllMethods(string name, int sizeof_arr)
+        {
+            if (sizeof_arr != 0)
+            {
+                Mydell[] dells = new Mydell[sizeof_arr];
+                dells[0] = Get_A;
+                dells[1] = Get_B;
+                dells[2] = Get_C;
+            
+                foreach (Mydell item in dells)
+                {
+                    if (item.Method.Name == name)
+                    {
+                        item.Invoke();
+                        break;
+                    }
+                   
+                }
+            }
+            else
+            {
+
+            }
+        }
+        private delegate void Mydell();
 
         private void GetData_Click(object sender, RoutedEventArgs e)
         {
             GetAreaData();
         }
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var a = sender;
+            ComboBox c = (ComboBox)sender;
+            ComboBoxItem selItem = null;
+            foreach (ComboBoxItem item in c.Items)
+            {
+                if (item.IsSelected == true)
+                {
+                    selItem = item;
+                    break;
+                }
+                else
+                {
+
+                }
+            }
+            if (selItem != null)
+            {
+                GetAllMethods(selItem.Content.ToString(), c.Items.Count);
+            }
+        }
     }
 }
+
