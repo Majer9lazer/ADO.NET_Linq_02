@@ -29,25 +29,35 @@ namespace WpfApplication1
         private void GetAreaData()
         {
             GridViewList.Columns.Clear();
-            var data_A = db.Areas.Where(w => w.WorkingPeople > 2);
-            List<Area> data_AL = data_A.ToList();
-            GridViewList.Columns.Add(new GridViewColumn()
-            {
-                Header = "AreId",
-                DisplayMemberBinding = new Binding()
-                {
-                    Path = new PropertyPath("AreaId")
-                }
-            });
-            GridViewList.Columns.Add(new GridViewColumn()
-            {
-                Header = "FullName",
-                DisplayMemberBinding = new Binding()
-                {
-                    Path = new PropertyPath("FullName")
-                }
-            });
-            DataList.ItemsSource = data_AL;
+            #region Выполнение задания А
+            //var data_A = db.Areas.Where(w => w.WorkingPeople > 2);
+            //List<Area> data_AL = data_A.ToList();
+            //GridViewList.Columns.Add(new GridViewColumn()
+            //{
+            //    Header = "AreId",
+            //    DisplayMemberBinding = new Binding()
+            //    {
+            //        Path = new PropertyPath("AreaId")
+            //    }
+            //});
+            //GridViewList.Columns.Add(new GridViewColumn()
+            //{
+            //    Header = "FullName",
+            //    DisplayMemberBinding = new Binding()
+            //    {
+            //        Path = new PropertyPath("FullName")
+            //    }
+            //});
+            //GridViewList.Columns.Add(new GridViewColumn()
+            //{
+            //    Header = "Name",
+            //    DisplayMemberBinding = new Binding()
+            //    {
+            //        Path = new PropertyPath("Name")
+            //    }
+            //});
+            //DataList.ItemsSource = data_AL;
+            #endregion
             var data_B = db.Areas.Where(w => w.AssemblyArea == true).ToList();
             var data_C = db.Areas.Skip(10);
             var data_D = db.Areas.Skip(5).Take(3);
@@ -78,29 +88,44 @@ namespace WpfApplication1
         }
         private void Get_A()
         {
-            var data_A = db.Areas.Where(w => w.WorkingPeople > 2);
-            List<Area> data_AL = data_A.ToList();
-            GridViewList.Columns.Add(new GridViewColumn()
+            try
             {
-                Header = "AreId",
-                DisplayMemberBinding = new Binding()
+                var data_A = db.Areas.Where(w => w.WorkingPeople > 2);
+                List<Area> data_AL = data_A.ToList();
+                GridViewList.Columns.Add(new GridViewColumn()
                 {
-                    Path = new PropertyPath("AreaId")
-                }
-            });
-            GridViewList.Columns.Add(new GridViewColumn()
+                    Header = "AreId",
+                    DisplayMemberBinding = new Binding()
+                    {
+                        Path = new PropertyPath("AreaId")
+                    }
+                });
+                GridViewList.Columns.Add(new GridViewColumn()
+                {
+                    Header = "FullName",
+                    DisplayMemberBinding = new Binding()
+                    {
+                        Path = new PropertyPath("FullName")
+                    }
+                });
+                GridViewList.Columns.Add(new GridViewColumn()
+                {
+                    Header = "Name",
+                    DisplayMemberBinding = new Binding()
+                    {
+                        Path = new PropertyPath("Name")
+                    }
+                });
+                DataList.ItemsSource = data_AL;
+            }
+            catch (Exception ex)
             {
-                Header = "FullName",
-                DisplayMemberBinding = new Binding()
-                {
-                    Path = new PropertyPath("FullName")
-                }
-            });
-            DataList.ItemsSource = data_AL;
+                ErrorOrSuccesLabel.Text += ex.Message;
+            }
         }
         private void Get_B()
         {
-           if (DataList.ItemsSource != null)
+            if (DataList.ItemsSource != null)
             {
                 DataList.ItemsSource = null;
                 var data_B = db.Areas.Where(w => w.AssemblyArea == true).ToList();
@@ -108,37 +133,32 @@ namespace WpfApplication1
             }
             else
             {
-                ErrorOrSuccesLabel.Content += "Ресурс пришел пустым))\n";
+                var data_B = db.Areas.Where(w => w.AssemblyArea == true).ToList();
+                DataList.ItemsSource = data_B;
             }
-           
         }
         private void Get_C()
         {
+
             var data_C = db.Areas.Skip(10).ToList();
+            DataList.ItemsSource = data_C;
         }
 
-        public void GetAllMethods(string name, int sizeof_arr)
+        public void GetAllMethods(string name)
         {
-            if (sizeof_arr != 0)
-            {
-                Mydell[] dells = new Mydell[sizeof_arr];
-                dells[0] = Get_A;
-                dells[1] = Get_B;
-                dells[2] = Get_C;
-            
-                foreach (Mydell item in dells)
-                {
-                    if (item.Method.Name == name)
-                    {
-                        item.Invoke();
-                        break;
-                    }
-                   
-                }
-            }
-            else
-            {
 
+            Mydell[] dells = new Mydell[13];
+            dells[0] = Get_A;
+            dells[1] = Get_B;
+            dells[2] = Get_C;
+
+            foreach (Mydell item in dells)
+            {
+                if (item.Method.Name == name)
+                {
+                    item.Invoke();
+                    break;
+                }
             }
         }
         private delegate void Mydell();
@@ -149,24 +169,31 @@ namespace WpfApplication1
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-      
-            ComboBox c = (ComboBox)sender;
-            ComboBoxItem selItem = null;
-            foreach (ComboBoxItem item in c.Items)
+            try
             {
-                if (item.IsSelected == true)
+                ComboBox c = (ComboBox)sender;
+                ComboBoxItem selItem = null;
+                foreach (ComboBoxItem item in c.Items)
                 {
-                    selItem = item;
-                    break;
-                }
-                else
-                {
+                    if (item.IsSelected == true)
+                    {
+                        selItem = item;
+                        break;
+                    }
+                    else
+                    {
 
+                    }
+                }
+                if (selItem != null)
+                {
+                    GetAllMethods(selItem.Content.ToString());
                 }
             }
-            if (selItem != null)
+            catch (Exception ex)
             {
-                GetAllMethods(selItem.Content.ToString(), c.Items.Count);
+
+                ErrorOrSuccesLabel.Text += ex.Message;
             }
         }
     }

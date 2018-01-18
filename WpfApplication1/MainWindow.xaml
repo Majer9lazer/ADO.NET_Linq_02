@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApplication1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="450" Width="625">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"></RowDefinition>
             <RowDefinition Height="20"></RowDefinition>
             <RowDefinition></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
         <ComboBox Grid.Row="1" SelectionChanged="ComboBox_SelectionChanged">
             <ComboBoxItem Content="Get_A" IsSelected="False"></ComboBoxItem>
@@ -29,7 +29,7 @@
             <ComboBoxItem Content="Get_M"  IsSelected="False"></ComboBoxItem>
 
         </ComboBox>
-        <Label x:Name="ErrorOrSuccesLabel" Grid.Row="3" Background="AliceBlue"></Label>
+        <TextBlock TextWrapping="Wrap" x:Name="ErrorOrSuccesLabel" Grid.Row="3" Background="AliceBlue" Margin="3"></TextBlock>
         <Button Content="GetAlldata" Grid.Row="0" x:Name="GetData" Click="GetData_Click"></Button>
         <TabControl Grid.Row="2">
             <TabItem Header="GetData_A">
